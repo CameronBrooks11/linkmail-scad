@@ -4,7 +4,7 @@ use <../src/linkmail.scad>;
 example_link_circle_rad = 1;
 
 // radius of the loop of the link
-example_link_loop_rad = 3;
+example_link_loop_rad = 3.5;
 
 // skew of the loop of the link
 example_loop_skew = 45; //  [15:75]
@@ -15,10 +15,8 @@ example_cut_offset = 1;
 n = 3;
 m = 3;
 
-link_spacing = 0.5; // [0:0.01:1]
+// minimum gap between neighbouring links, in mm
+clearance = 0.4; // [0.2:0.05:0.8]
 
-// module square_mail(loop_link_rad, circle_link_rad, loop_skew, cut_offset, n, m)
-
-// link_loop_rad, link_circle_rad,
 square_mail(link_loop_rad = example_link_loop_rad, link_circle_rad = example_link_circle_rad,
-            loop_skew = example_loop_skew, cut_offset = example_cut_offset, n = n, m = m, link_spacing = link_spacing);
+            loop_skew = example_loop_skew, cut_offset = example_cut_offset, n = n, m = m, clearance = clearance);
