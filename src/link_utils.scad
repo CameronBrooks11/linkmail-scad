@@ -76,6 +76,11 @@ function point_cylinder_distance(p, c, r, half_height) =
  */
 module cut_link_faces(cut_offset, link_loop_rad, link_circle_rad, height)
 {
+    // The top of each loop is 2 * link_circle_rad thick; a deeper cut
+    // severs the loops.
+    assert(cut_offset < 2 * link_circle_rad,
+           str("cut_offset (", cut_offset, ") must be less than twice link_circle_rad (", 2 * link_circle_rad,
+               "), or the cut severs the loops"));
     zFite = $preview ? 0.1 : 0.0;
 
     difference()
