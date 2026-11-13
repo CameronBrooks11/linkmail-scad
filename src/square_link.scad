@@ -16,5 +16,3 @@ module square_link(link_loop_rad, link_circle_rad, loop_skew, cut_offset, fn = 1
         cylinder(h = height * 2, r1 = link_circle_rad * 2, r2 = link_circle_rad * 2, $fn = fn, center = true);
     }
 }
-
-// TODO: octagonal like tri hex

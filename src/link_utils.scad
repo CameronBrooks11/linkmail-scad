@@ -58,7 +58,3 @@ module cut_link_faces(cut_offset, link_loop_rad, link_circle_rad, height)
                 center = true);
     }
 }
-
-module link_gen()
-{
-}
