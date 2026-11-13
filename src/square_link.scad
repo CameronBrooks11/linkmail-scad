@@ -26,8 +26,9 @@ module square_link(link_loop_rad, link_circle_rad, loop_skew, cut_offset, fn = 1
  *
  * The smallest gap between two square links placed `spacing` apart along x,
  * measured on the true surfaces: loop against loop, and loop against hub.
- * Negative when they overlap. Links one step apart diagonally, or two steps
- * apart, are further away than this for any spacing that leaves a gap.
+ * Negative when they overlap. Diagonal neighbours are not measured: at the
+ * spacings square_mail_spacing() chose for loop radii of 3 to 6 mm and
+ * skews of 30 to 60 degrees, they were at least 2.3 mm further apart.
  *
  * samples: points taken on each loop's core circle. Sampling can only
  * overestimate the gap; 180 samples came within 0.0005 mm of 1440 for
