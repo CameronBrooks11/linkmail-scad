@@ -1,22 +1,24 @@
+// A sheet of square links that prints flat in one piece, each link free to move.
+// The links sit as close together as the clearance allows; the render stops if none can.
 use <../src/linkmail.scad>;
 
-// radius of the extruded circular cross section of the link
-example_link_circle_rad = 1;
-
-// radius of the loop of the link
-example_link_loop_rad = 3.5;
-
-// skew of the loop of the link
-example_loop_skew = 45; //  [15:75]
-
-// offset to cut the faces of the link from the top +z and -z of the link
-example_cut_offset = 1;
-
-n = 3;
-m = 3;
-
-// minimum gap between neighbouring links, in mm
+/* [Sheet] */
+// Links along x
+n = 3; // [1:1:20]
+// Links along y
+m = 3; // [1:1:20]
+// Smallest gap between neighbouring links (mm)
 clearance = 0.4; // [0.2:0.05:0.8]
+
+/* [Link] */
+// Radius of the round wire the loops are made of (mm)
+example_link_circle_rad = 1; // [0.5:0.1:4]
+// Radius of each loop (mm)
+example_link_loop_rad = 3.5; // [2:0.5:15]
+// How far each loop tilts out of the flat (degrees)
+example_loop_skew = 45; // [15:75]
+// How much to cut off the top and bottom so each link sits flat (mm); less than twice the wire radius
+example_cut_offset = 1; // [0:0.1:4]
 
 square_mail(link_loop_rad = example_link_loop_rad, link_circle_rad = example_link_circle_rad,
             loop_skew = example_loop_skew, cut_offset = example_cut_offset, n = n, m = m, clearance = clearance);
