@@ -4,9 +4,21 @@ default:
 # Run the function checks, render every example, and check the sheet's links are separate
 test:
     @out=$(openscad --hardwarnings -o - --export-format echo tests/test_linkmail.scad 2>/dev/null); echo "$out" | grep -q 'all checks passed' || { echo "$out" | grep -E 'ERROR|WARNING'; exit 1; }; echo "function checks passed"
-    @for f in examples/*.scad; do log=$(openscad --hardwarnings -o - --export-format binstl "$f" 2>&1 >/dev/null) || { echo "$f:"; echo "$log"; exit 1; }; echo "rendered $f"; done
-    @log=$(openscad -D example_cut_offset=4.1 -o - --export-format binstl examples/square_link_example.scad 2>&1 >/dev/null) && { echo "a 4.1 mm cut on a 2 mm tube rendered"; exit 1; }; echo "$log" | grep -q 'severs the loops' && echo "a cut that severs the loops is refused"
+    @# A failed assert leaves the exit status at 0, so the output decides.
+    @for f in examples/*.scad; do log=$(openscad --hardwarnings -o - --export-format binstl "$f" 2>&1 >/dev/null); if [ $? -ne 0 ] || echo "$log" | grep -qE '^(WARNING|ERROR)'; then echo "$f:"; echo "$log"; exit 1; fi; echo "rendered $f"; done
+    @log=$(openscad -D example_cut_offset=4.1 -o - --export-format binstl examples/square_link_example.scad 2>&1 >/dev/null); echo "$log" | grep -q 'severs the loops' || { echo "a 4.1 mm cut on a 2 mm tube was not refused"; exit 1; }; echo "a cut that severs the loops is refused"
     @stl=$(mktemp --suffix .stl) && openscad --hardwarnings --export-format binstl -o "$stl" examples/square_linkmail_example.scad 2>/dev/null && python3 tests/count_solids.py "$stl" 9; rc=$?; rm -f "$stl"; exit $rc
+
+# Everything CI runs, bar the tests
+check: fmt-check
+
+# Format the .scad sources with topiary (.topiary/languages.ncl)
+fmt:
+    git ls-files -z '*.scad' | xargs -0 -r topiary format
+
+# Check the .scad sources are formatted, without changing them
+fmt-check:
+    git ls-files -z '*.scad' | xargs -0 -r -n1 topiary format --check
 
 # Regenerate the README pictures in assets/
 images:
