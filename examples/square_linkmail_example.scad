@@ -20,5 +20,7 @@ example_loop_skew = 45; // [15:75]
 // How much to cut off the top and bottom so each link sits flat (mm); less than twice the wire radius
 example_cut_offset = 1; // [0:0.1:4]
 
-square_mail(link_loop_rad = example_link_loop_rad, link_circle_rad = example_link_circle_rad,
-            loop_skew = example_loop_skew, cut_offset = example_cut_offset, n = n, m = m, clearance = clearance);
+square_mail(
+    link_loop_rad=example_link_loop_rad, link_circle_rad=example_link_circle_rad,
+    loop_skew=example_loop_skew, cut_offset=example_cut_offset, n=n, m=m, clearance=clearance
+);
