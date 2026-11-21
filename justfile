@@ -8,6 +8,17 @@ test:
     @log=$(openscad -D example_cut_offset=4.1 -o - --export-format binstl examples/square_link_example.scad 2>&1 >/dev/null) && { echo "a 4.1 mm cut on a 2 mm tube rendered"; exit 1; }; echo "$log" | grep -q 'severs the loops' && echo "a cut that severs the loops is refused"
     @stl=$(mktemp --suffix .stl) && openscad --hardwarnings --export-format binstl -o "$stl" examples/square_linkmail_example.scad 2>/dev/null && python3 tests/count_solids.py "$stl" 9; rc=$?; rm -f "$stl"; exit $rc
 
+# Everything CI runs, bar the tests
+check: fmt-check
+
+# Format the .scad sources with topiary (.topiary/languages.ncl)
+fmt:
+    git ls-files -z '*.scad' | xargs -0 -r topiary format
+
+# Check the .scad sources are formatted, without changing them
+fmt-check:
+    git ls-files -z '*.scad' | xargs -0 -r -n1 topiary format --check
+
 # Regenerate the README pictures in assets/
 images:
     @mkdir -p assets
